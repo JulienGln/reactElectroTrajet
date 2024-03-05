@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
+import axios from "axios";
 
 export default function FormTrajet({ giveCoordsToMap, infosTrajet }) {
   const [searchTerm, setSearchTerm] = useState(""); // texte de l'input de la ville de départ
@@ -144,50 +145,20 @@ export default function FormTrajet({ giveCoordsToMap, infosTrajet }) {
 
   // récup des véhicules électriques
   useEffect(() => {
-    const apiUrl = "https://api.chargetrip.io/graphql";
-    fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "x-client-id": process.env.REACT_APP_CHARGETRIP_CLIENT_ID,
-        "x-app-id": process.env.REACT_APP_CHARGETRIP_APP_ID,
-      },
-      body: JSON.stringify({
-        query: `query vehicleList {
-          vehicleList(
-            page: 0, 
-            size: 20
-          ) {
-            id
-            naming {
-              make
-              model
-              chargetrip_version
-            }
-            media {
-              image {
-                thumbnail_url
-              }
-            }
-            battery {
-              usable_kwh
-            }
-            range {
-              chargetrip_range {
-                best
-                worst
-              }
-            }
-          }
-        }`,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setVehicules(data.data.vehicleList);
-        formatageVehicules(data.data.vehicleList);
-      });
+    const apiUrl =
+      "https://electro-trajet-server.azurewebsites.net/vehicle-list";
+
+    const fetchVehicles = async () => {
+      try {
+        const res = await axios.get(apiUrl);
+        setVehicules(res.data);
+        formatageVehicules(res.data);
+      } catch (error) {
+        console.error(`Error: ${error}`);
+      }
+    };
+
+    fetchVehicles();
   }, []);
 
   return (
