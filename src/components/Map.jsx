@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import * as L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine";
@@ -52,7 +52,12 @@ export default function Map({ villes, giveInfosTrajet }) {
       // Ajuster la taille de la carte après le zoom
       mapRef.current.invalidateSize();
     });
-  }, []);
+  }, [
+    villes.villeA.lat,
+    villes.villeA.lon,
+    villes.villeB.lat,
+    villes.villeB.lon,
+  ]);
 
   /**
    * Ajout des villes sur la carte
@@ -62,7 +67,7 @@ export default function Map({ villes, giveInfosTrajet }) {
       addVilleAAndVilleB(mapRef);
       fetchTrajet();
     }
-  }, [mapRef.current]);
+  }, [addVilleAAndVilleB, fetchTrajet]);
 
   /**
    * Ajoute à la carte les marqueurs de départ et d'arrivée
