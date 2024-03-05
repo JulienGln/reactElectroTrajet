@@ -286,18 +286,26 @@ export default function FormTrajet({ giveCoordsToMap, infosTrajet }) {
         )}
 
         <div className="m-3">
-          <Select
-            placeholder="Véhicule"
-            id="vehicule"
-            required
-            noOptionsMessage={() => {
-              return "Aucune véhicule disponible...";
-            }}
-            options={optionsVehicules}
-            onChange={handleVehiculeChange}
-            isDisabled={disableInputs}
-            className="shadow-sm"
-          />
+          {vehicules.length > 0 ? (
+            <Select
+              placeholder="Véhicule"
+              id="vehicule"
+              required
+              noOptionsMessage={() => {
+                return "Aucune véhicule disponible...";
+              }}
+              options={optionsVehicules}
+              onChange={handleVehiculeChange}
+              isDisabled={disableInputs}
+              className="shadow-sm"
+            />
+          ) : (
+            <>
+              <div className="spinner-border text-primary" role="status"></div>
+              <br />
+              <span className="fw-bold">Chargement des véhicules...</span>
+            </>
+          )}
         </div>
         {vehicule && (
           <img
