@@ -29,7 +29,7 @@ export default function Home() {
     console.log("Infos trajet et véhicules : ", args);
 
     // appel à SOAP via le serveur proxy
-    fetch("http://localhost:3001/soap-proxy", {
+    fetch("https://electro-trajet-server.azurewebsites.net/soap-proxy", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
