@@ -185,8 +185,8 @@ export default function FormTrajet({ giveCoordsToMap, infosTrajet }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        setVehicules(data.data.vehicleList),
-          formatageVehicules(data.data.vehicleList);
+        setVehicules(data.data.vehicleList);
+        formatageVehicules(data.data.vehicleList);
       });
   }, []);
 
